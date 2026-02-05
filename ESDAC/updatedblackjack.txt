@@ -1,38 +1,46 @@
 [-----MASTER ROUTINE-----]
-T	64	K [set load point to 64]
-Z               F [starting with a HALT]
-G		K [set theta parameter to the current load point]
-T               F [0: clear acc]
-T	47	K [1: using the M location]
-P	7	@ [2: where the greeting text is stored]
-T		Z [3: saves info]
-T		F [4: clear acc]
-A		M [5: grabs the play message]
-T	1	F [6: puts the message address in slot 1 for the printer]
-A	4	@ [7: makes a return ticket so the printer can get back here]
-G	95	F [8: jumps to print subroutine]
-I		F [9: Wait for Y/N]
-Z		F [10: HALT]
-P      1        M [11: pointer to tell where the text starts]
+T   64  K        [set load point to 64]
+Z   F             [HALT placeholder]
+
+[--- Print “Play Y/N” message ---]
+T   7   K         [string start address]
+P   1   F         [store in printer slot 1]
+
+T   90  K         [return address after print]
+P   5   F         [store return ticket for subroutine]
+
+G   95  F         [jump to printer subroutine]
+
+[--- Continue here after print returns ---]
+Z   F             [HALT here — just to test printing works]
 
 [---STRING DATA---]
-* F  [ Character shift to Letters ]
-P       	F
-L       	F
-A       	F
-Y       	F
-#       	F [Figure shift]
-B       	F [?]
 * F
-!       	F [Space]
-Y       	F
-#       	F [Figure shift]
-X       	F [/]
-* F
-N               F
-&       	F [Line Feed]
-@       	F [Carriage Return]
-P    32		F [String terminator]
+P   F
+L   F
+A   F
+Y   F
+#   F
+B   F
+*   F
+!   F
+Y   F
+#   F
+X   F
+*   F
+N   F
+&   F
+@   F
+P   32 F          [string terminator]
+T   0   K
+P   200 F         [return_card placeholder]
+
+T   37  K
+P   12  F          [test card input slot]
+
+T   0   K
+P   202 F         [after_card placeholder]
+
 
 [---SUBROUTINE FOR STRING PRINT AT 95---]
 T	95	K [starts the printer logic at slot 95]
@@ -66,9 +74,27 @@ A       	F [Blank add command]
 P	32 	F [using the number 32 as the stop signal so no letters to confuse us]
 P	0 	F [workspace for the current letter]
 
-[---CARD DECK (starting at address 150)---]
+[subroutine PROCESS CARD]
+T   210 K [Clear accumulator]
+G       K [Go to where cards are]
+T   12  F [Save card number]
+A   12  F [Test purpose add number to accumulator]
+[GETTING SUIT]
+T       & [delta = 0]
+60  A   60  F [Hold to return to later]
+    A   1   &
+    T       &
+    E   60  F [If remainder is positive go to 60 and subtract again]
+S   1   & [Subtract 1 from delta]
+T       & [delta is suit 0 = Heart, 1 = Diamond, 2 = Club, 3 = Spade]  
+[GETTING NUMBER]
+A   13  F [Add 13 to the negative remainder and we can process that]
+T       ! [store rank in phi]
+G   200   F 
 
-T	150	K
+[---CARD DECK (starting at address 150)---]
+[This is a table of numbers P n F  sets memlocation[n] = n]
+T	210	K [Store cards at this location]
 
 [Hearts]
 P	0	F [Ace]
