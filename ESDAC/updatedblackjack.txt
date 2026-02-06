@@ -1,8 +1,8 @@
 [-----MASTER ROUTINE-----]
 T	64	K [set load point to 64]
-Z               F [starting with a HALT]
+Z       F [starting with a HALT]
 G		K [set theta parameter to the current load point]
-T               F [0: clear acc]
+T       F [0: clear acc]
 T	47	K [1: using the M location]
 P	7	@ [2: where the greeting text is stored]
 T		Z [3: saves info]
@@ -16,23 +16,133 @@ Z		F [10: HALT]
 P      1        M [11: pointer to tell where the text starts]
 
 [---STRING DATA---]
-* F
+[string: PLAYERHAND]
+*   F [Character shift]
+P   F  
+L   F
+A   F
+Y   F
+E   F
+R   F
+H   F
+A   F
+N   F
+D   F
+!   F [Space]
+P   32 F          [string terminator]
+[string: DEALERHAND]
+*   F
+D   F  
+E   F
+A   F
+L   F
+E   F
+R   F
+H   Fw
+A   F
+N   F
+D   F
+P   32 F          [string terminator]
+
+[string: POINTS]
+*   F [Character shift]
+P   F
+O   F
+I   F
+N   F
+T   F
+S   F
+!   F
+P   32 F          [string terminator]
+
+
+[string: BET 10]
+*   F [Character shift]
+B   F
+E   F
+T   F
+!   F
+#   F
+1   F
+0   F
+P   32 F          [string terminator]
+
+
+[string: HIT OR STAND]
+*   F [Character shift]
+H   F
+I   F
+T   F
+!   F
+O   F
+R   F
+!   F
+S   F
+T   F
+A   F 
+N   F 
+D   F 
+P   32 F          [string terminator]
+
+[string: BUST]
+*   F [Character shift]
+B   F
+U   F
+S   F
+T   F
+P   32 F
+
+[string: WIN]
+*   F 
+W   F
+I   F
+N   F
+P   32 F          [string terminator]
+
+[string: +10]
+#   F 
++   F
+1   F 
+0   F
+P   32 F          [string terminator]
+
+[string: -10]
+#   F 
+-   F
+1   F 
+0   F
+P   32 F          [string terminator]
+
+[string: +15]
+#   F 
++   F
+1   F 
+5   F
+P   32 F          [string terminator]
+
+
+[string: PLAY AGAIN]
+*   F
 P   F
 L   F
 A   F
 Y   F
-#   F
-B   F
-*   F
 !   F
-Y   F
-#   F
-X   F
-*   F
+A   F
+G   F
+A   F
+I   F
 N   F
-&   F
-@   F
+#   F
 P   32 F          [string terminator]
+
+[string: OF]
+*   F
+O   F 
+F   F
+P   32 F          [string terminator]
+
+[CARD LOGIC DATA]
 T   0   K
 P   200 F         [return_card placeholder]
 
