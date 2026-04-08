@@ -1,5 +1,9 @@
 grammar TallGrass;
 
+@header {
+import static TallGrass.AST.*;
+}
+
 // Parser Specification of this Programming Language
 //  - parser specification rules start with lowercase
 // YOU WILL NEED TO EDIT THE PARSER RULES FOR THIS ASSGINMENT

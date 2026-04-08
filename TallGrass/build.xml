@@ -21,7 +21,7 @@
 			<arg value="parser/" />
 			<arg value="-no-listener" />
 			<arg value="-package" />
-			<arg value="TallGrass.parser; import static TallGrass.AST.*" />
+			<arg value="TallGrass.parser" />
 			<arg value="TallGrass.g" />
 		</java>
 	</target>

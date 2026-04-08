@@ -1,5 +1,8 @@
-// Generated from CalcLang.g by ANTLR 4.5
-package calclang.parser; import static calclang.AST.*;
+// Generated from TallGrass.g by ANTLR 4.5
+package TallGrass.parser;
+
+import static TallGrass.AST.*;
+
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +13,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class CalcLangParser extends Parser {
+public class TallGrassParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -70,7 +73,7 @@ public class CalcLangParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CalcLang.g"; }
+	public String getGrammarFileName() { return "TallGrass.g"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -81,7 +84,7 @@ public class CalcLangParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public CalcLangParser(TokenStream input) {
+	public TallGrassParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -181,7 +184,7 @@ public class CalcLangParser extends Parser {
 		public TermContext t;
 		public TermContext r2;
 		public TermContext r3;
-		public TerminalNode Identifier() { return getToken(CalcLangParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(TallGrassParser.Identifier, 0); }
 		public ExpContext exp() {
 			return getRuleContext(ExpContext.class,0);
 		}
@@ -459,7 +462,7 @@ public class CalcLangParser extends Parser {
 		public NumberContext number() {
 			return getRuleContext(NumberContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(CalcLangParser.Identifier, 0); }
+		public TerminalNode Identifier() { return getToken(TallGrassParser.Identifier, 0); }
 		public BaseContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -529,10 +532,10 @@ public class CalcLangParser extends Parser {
 		public Exp ast;
 		public Token n0;
 		public Token n1;
-		public TerminalNode Dot() { return getToken(CalcLangParser.Dot, 0); }
-		public List<TerminalNode> Number() { return getTokens(CalcLangParser.Number); }
+		public TerminalNode Dot() { return getToken(TallGrassParser.Dot, 0); }
+		public List<TerminalNode> Number() { return getTokens(TallGrassParser.Number); }
 		public TerminalNode Number(int i) {
-			return getToken(CalcLangParser.Number, i);
+			return getToken(TallGrassParser.Number, i);
 		}
 		public NumberContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);

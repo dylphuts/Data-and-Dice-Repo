@@ -1,5 +1,8 @@
-// Generated from CalcLang.g by ANTLR 4.5
-package calclang.parser; import static calclang.AST.*;
+// Generated from TallGrass.g by ANTLR 4.5
+package TallGrass.parser;
+
+import static TallGrass.AST.*;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +13,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class CalcLangLexer extends Lexer {
+public class TallGrassLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -73,13 +76,13 @@ public class CalcLangLexer extends Lexer {
 	}
 
 
-	public CalcLangLexer(CharStream input) {
+	public TallGrassLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "CalcLang.g"; }
+	public String getGrammarFileName() { return "TallGrass.g"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
