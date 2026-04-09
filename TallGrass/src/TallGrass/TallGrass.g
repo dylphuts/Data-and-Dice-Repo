@@ -12,7 +12,8 @@ program returns [Program ast] :
     s=stmt { $ast = new Program($s.ast); }
 ;
 stmt returns [Exp ast]
-    : 'print' e=exp { $ast = new PrintExp($e.ast); }
+    : Spot i=Identifier Level r=exp  { $ast = new SpotStmt($i.text, $r.ast); }
+    | 'print' e=exp { $ast = new PrintExp($e.ast); }
     | Shout e=exp { $ast = new ShoutExp($e.ast); }
     | e=exp         { $ast = $e.ast; }
 ;
@@ -43,6 +44,8 @@ number returns [Exp ast]
  // YOU SHOULD NOT EDIT THESE RULES IN THIS ASSIGNMENT
  Print : 'print';
  Shout : 'shout';
+ Spot : 'spot';
+ Level : 'level';
  Dot : '.' ;
 
  Number : DIGIT+ ;

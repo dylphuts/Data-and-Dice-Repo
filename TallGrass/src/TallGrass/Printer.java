@@ -77,5 +77,9 @@ public class Printer {
 		public String visit(ShoutExp e) {
 			return "shout " + e.getExp().accept(this);
 		}
+
+		public String visit(SpotStmt e) {
+			return "spot " + e.name() + " level " + e.value().accept(this);
+		}
 	}
 }

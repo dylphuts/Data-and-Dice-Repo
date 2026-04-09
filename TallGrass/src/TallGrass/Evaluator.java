@@ -119,4 +119,11 @@ public class Evaluator implements Visitor<Value> {
 		System.out.println(((NumVal) v).v());
 		return new NumVal(0);
 	}
+
+	@Override
+	public Value visit(SpotStmt e) {
+		Value v = e.value().accept(this);
+		env.put(e.name(), v);
+		return v;
+	}
 }

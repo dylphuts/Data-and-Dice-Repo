@@ -21,8 +21,8 @@ public class TallGrassParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, Print=9, 
-		Shout=10, Dot=11, Number=12, Identifier=13, Letter=14, LetterOrDigit=15, 
-		AT=16, ELLIPSIS=17, WS=18, Comment=19, Line_Comment=20;
+		Shout=10, Spot=11, Level=12, Dot=13, Number=14, Identifier=15, Letter=16, 
+		LetterOrDigit=17, AT=18, ELLIPSIS=19, WS=20, Comment=21, Line_Comment=22;
 	public static final int
 		RULE_program = 0, RULE_stmt = 1, RULE_exp = 2, RULE_term = 3, RULE_factor = 4, 
 		RULE_base = 5, RULE_number = 6;
@@ -32,12 +32,13 @@ public class TallGrassParser extends Parser {
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "':='", "'+'", "'-'", "'*'", "'/'", "'^'", "'('", "')'", "'print'", 
-		"'shout'", "'.'", null, null, null, null, "'@'", "'...'"
+		"'shout'", "'spot'", "'level'", "'.'", null, null, null, null, "'@'", 
+		"'...'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, "Print", "Shout", 
-		"Dot", "Number", "Identifier", "Letter", "LetterOrDigit", "AT", "ELLIPSIS", 
-		"WS", "Comment", "Line_Comment"
+		"Spot", "Level", "Dot", "Number", "Identifier", "Letter", "LetterOrDigit", 
+		"AT", "ELLIPSIS", "WS", "Comment", "Line_Comment"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -124,7 +125,12 @@ public class TallGrassParser extends Parser {
 
 	public static class StmtContext extends ParserRuleContext {
 		public Exp ast;
+		public Token i;
+		public ExpContext r;
 		public ExpContext e;
+		public TerminalNode Spot() { return getToken(TallGrassParser.Spot, 0); }
+		public TerminalNode Level() { return getToken(TallGrassParser.Level, 0); }
+		public TerminalNode Identifier() { return getToken(TallGrassParser.Identifier, 0); }
 		public ExpContext exp() {
 			return getRuleContext(ExpContext.class,0);
 		}
@@ -139,24 +145,38 @@ public class TallGrassParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_stmt);
 		try {
-			setState(28);
+			setState(34);
 			switch (_input.LA(1)) {
-			case Print:
+			case Spot:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(17);
-				match(Print);
+				match(Spot);
 				setState(18);
+				((StmtContext)_localctx).i = match(Identifier);
+				setState(19);
+				match(Level);
+				setState(20);
+				((StmtContext)_localctx).r = exp(0);
+				 ((StmtContext)_localctx).ast =  new SpotStmt((((StmtContext)_localctx).i!=null?((StmtContext)_localctx).i.getText():null), ((StmtContext)_localctx).r.ast); 
+				}
+				break;
+			case Print:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(23);
+				match(Print);
+				setState(24);
 				((StmtContext)_localctx).e = exp(0);
 				 ((StmtContext)_localctx).ast =  new PrintExp(((StmtContext)_localctx).e.ast); 
 				}
 				break;
 			case Shout:
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(21);
+				setState(27);
 				match(Shout);
-				setState(22);
+				setState(28);
 				((StmtContext)_localctx).e = exp(0);
 				 ((StmtContext)_localctx).ast =  new ShoutExp(((StmtContext)_localctx).e.ast); 
 				}
@@ -165,9 +185,9 @@ public class TallGrassParser extends Parser {
 			case T__6:
 			case Number:
 			case Identifier:
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(25);
+				setState(31);
 				((StmtContext)_localctx).e = exp(0);
 				 ((StmtContext)_localctx).ast =  ((StmtContext)_localctx).e.ast; 
 				}
@@ -223,29 +243,29 @@ public class TallGrassParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(45);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				{
-				setState(31);
+				setState(37);
 				((ExpContext)_localctx).i = match(Identifier);
-				setState(32);
+				setState(38);
 				match(T__0);
-				setState(33);
+				setState(39);
 				((ExpContext)_localctx).r = exp(4);
 				 ((ExpContext)_localctx).ast =  new AssignExp((((ExpContext)_localctx).i!=null?((ExpContext)_localctx).i.getText():null), ((ExpContext)_localctx).r.ast); 
 				}
 				break;
 			case 2:
 				{
-				setState(36);
+				setState(42);
 				((ExpContext)_localctx).t = term(0);
 				 ((ExpContext)_localctx).ast =  ((ExpContext)_localctx).t.ast; 
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(53);
+			setState(59);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -253,7 +273,7 @@ public class TallGrassParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(51);
+					setState(57);
 					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 					case 1:
 						{
@@ -261,11 +281,11 @@ public class TallGrassParser extends Parser {
 						_localctx.l = _prevctx;
 						_localctx.l = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(41);
+						setState(47);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(42);
+						setState(48);
 						match(T__1);
-						setState(43);
+						setState(49);
 						((ExpContext)_localctx).r2 = term(0);
 						 ((ExpContext)_localctx).ast =  new AddExp(((ExpContext)_localctx).l.ast, ((ExpContext)_localctx).r2.ast); 
 						}
@@ -276,11 +296,11 @@ public class TallGrassParser extends Parser {
 						_localctx.l = _prevctx;
 						_localctx.l = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_exp);
-						setState(46);
+						setState(52);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(47);
+						setState(53);
 						match(T__2);
-						setState(48);
+						setState(54);
 						((ExpContext)_localctx).r3 = term(0);
 						 ((ExpContext)_localctx).ast =  new SubExp(((ExpContext)_localctx).l.ast, ((ExpContext)_localctx).r3.ast); 
 						}
@@ -288,7 +308,7 @@ public class TallGrassParser extends Parser {
 					}
 					} 
 				}
-				setState(55);
+				setState(61);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 			}
@@ -338,12 +358,12 @@ public class TallGrassParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(57);
+			setState(63);
 			((TermContext)_localctx).f = factor();
 			 ((TermContext)_localctx).ast =  ((TermContext)_localctx).f.ast; 
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(72);
+			setState(78);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -351,7 +371,7 @@ public class TallGrassParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(70);
+					setState(76);
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
@@ -359,11 +379,11 @@ public class TallGrassParser extends Parser {
 						_localctx.l = _prevctx;
 						_localctx.l = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_term);
-						setState(60);
+						setState(66);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(61);
+						setState(67);
 						match(T__3);
-						setState(62);
+						setState(68);
 						((TermContext)_localctx).r = factor();
 						 ((TermContext)_localctx).ast =  new MulExp(((TermContext)_localctx).l.ast, ((TermContext)_localctx).r.ast); 
 						}
@@ -374,11 +394,11 @@ public class TallGrassParser extends Parser {
 						_localctx.l = _prevctx;
 						_localctx.l = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_term);
-						setState(65);
+						setState(71);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(66);
+						setState(72);
 						match(T__4);
-						setState(67);
+						setState(73);
 						((TermContext)_localctx).r = factor();
 						 ((TermContext)_localctx).ast =  new DivExp(((TermContext)_localctx).l.ast, ((TermContext)_localctx).r.ast); 
 						}
@@ -386,7 +406,7 @@ public class TallGrassParser extends Parser {
 					}
 					} 
 				}
-				setState(74);
+				setState(80);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
@@ -423,16 +443,16 @@ public class TallGrassParser extends Parser {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_factor);
 		try {
-			setState(83);
+			setState(89);
 			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(75);
+				setState(81);
 				((FactorContext)_localctx).b = base();
-				setState(76);
+				setState(82);
 				match(T__5);
-				setState(77);
+				setState(83);
 				((FactorContext)_localctx).f = factor();
 				 ((FactorContext)_localctx).ast =  new PowExp(((FactorContext)_localctx).b.ast, ((FactorContext)_localctx).f.ast); 
 				}
@@ -440,7 +460,7 @@ public class TallGrassParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(80);
+				setState(86);
 				((FactorContext)_localctx).b = base();
 				 ((FactorContext)_localctx).ast =  ((FactorContext)_localctx).b.ast; 
 				}
@@ -484,14 +504,14 @@ public class TallGrassParser extends Parser {
 		BaseContext _localctx = new BaseContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_base);
 		try {
-			setState(99);
+			setState(105);
 			switch (_input.LA(1)) {
 			case T__2:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(85);
+				setState(91);
 				match(T__2);
-				setState(86);
+				setState(92);
 				((BaseContext)_localctx).b = base();
 				 ((BaseContext)_localctx).ast =  new NegExp(((BaseContext)_localctx).b.ast); 
 				}
@@ -499,11 +519,11 @@ public class TallGrassParser extends Parser {
 			case T__6:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(89);
+				setState(95);
 				match(T__6);
-				setState(90);
+				setState(96);
 				((BaseContext)_localctx).e = exp(0);
-				setState(91);
+				setState(97);
 				match(T__7);
 				 ((BaseContext)_localctx).ast =  ((BaseContext)_localctx).e.ast; 
 				}
@@ -511,7 +531,7 @@ public class TallGrassParser extends Parser {
 			case Number:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(94);
+				setState(100);
 				((BaseContext)_localctx).n = number();
 				 ((BaseContext)_localctx).ast =  ((BaseContext)_localctx).n.ast; 
 				}
@@ -519,7 +539,7 @@ public class TallGrassParser extends Parser {
 			case Identifier:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(97);
+				setState(103);
 				((BaseContext)_localctx).i = match(Identifier);
 				 ((BaseContext)_localctx).ast =  new VarExp((((BaseContext)_localctx).i!=null?((BaseContext)_localctx).i.getText():null)); 
 				}
@@ -558,16 +578,16 @@ public class TallGrassParser extends Parser {
 		NumberContext _localctx = new NumberContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_number);
 		try {
-			setState(107);
+			setState(113);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(101);
+				setState(107);
 				((NumberContext)_localctx).n0 = match(Number);
-				setState(102);
+				setState(108);
 				match(Dot);
-				setState(103);
+				setState(109);
 				((NumberContext)_localctx).n1 = match(Number);
 				 ((NumberContext)_localctx).ast =  new NumExp(Double.parseDouble((((NumberContext)_localctx).n0!=null?((NumberContext)_localctx).n0.getText():null)+"."+(((NumberContext)_localctx).n1!=null?((NumberContext)_localctx).n1.getText():null))); 
 				}
@@ -575,7 +595,7 @@ public class TallGrassParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(105);
+				setState(111);
 				((NumberContext)_localctx).n0 = match(Number);
 				 ((NumberContext)_localctx).ast =  new NumExp(Double.parseDouble((((NumberContext)_localctx).n0!=null?((NumberContext)_localctx).n0.getText():null))); 
 				}
@@ -622,33 +642,34 @@ public class TallGrassParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\26p\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\30v\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\37\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\5\4*\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4\66\n\4\f\4"+
-		"\16\49\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7"+
-		"\5I\n\5\f\5\16\5L\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6V\n\6\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7f\n\7\3\b\3\b\3"+
-		"\b\3\b\3\b\3\b\5\bn\n\b\3\b\2\4\6\b\t\2\4\6\b\n\f\16\2\2t\2\20\3\2\2\2"+
-		"\4\36\3\2\2\2\6)\3\2\2\2\b:\3\2\2\2\nU\3\2\2\2\fe\3\2\2\2\16m\3\2\2\2"+
-		"\20\21\5\4\3\2\21\22\b\2\1\2\22\3\3\2\2\2\23\24\7\13\2\2\24\25\5\6\4\2"+
-		"\25\26\b\3\1\2\26\37\3\2\2\2\27\30\7\f\2\2\30\31\5\6\4\2\31\32\b\3\1\2"+
-		"\32\37\3\2\2\2\33\34\5\6\4\2\34\35\b\3\1\2\35\37\3\2\2\2\36\23\3\2\2\2"+
-		"\36\27\3\2\2\2\36\33\3\2\2\2\37\5\3\2\2\2 !\b\4\1\2!\"\7\17\2\2\"#\7\3"+
-		"\2\2#$\5\6\4\6$%\b\4\1\2%*\3\2\2\2&\'\5\b\5\2\'(\b\4\1\2(*\3\2\2\2) \3"+
-		"\2\2\2)&\3\2\2\2*\67\3\2\2\2+,\f\5\2\2,-\7\4\2\2-.\5\b\5\2./\b\4\1\2/"+
-		"\66\3\2\2\2\60\61\f\4\2\2\61\62\7\5\2\2\62\63\5\b\5\2\63\64\b\4\1\2\64"+
-		"\66\3\2\2\2\65+\3\2\2\2\65\60\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3"+
-		"\2\2\28\7\3\2\2\29\67\3\2\2\2:;\b\5\1\2;<\5\n\6\2<=\b\5\1\2=J\3\2\2\2"+
-		">?\f\5\2\2?@\7\6\2\2@A\5\n\6\2AB\b\5\1\2BI\3\2\2\2CD\f\4\2\2DE\7\7\2\2"+
-		"EF\5\n\6\2FG\b\5\1\2GI\3\2\2\2H>\3\2\2\2HC\3\2\2\2IL\3\2\2\2JH\3\2\2\2"+
-		"JK\3\2\2\2K\t\3\2\2\2LJ\3\2\2\2MN\5\f\7\2NO\7\b\2\2OP\5\n\6\2PQ\b\6\1"+
-		"\2QV\3\2\2\2RS\5\f\7\2ST\b\6\1\2TV\3\2\2\2UM\3\2\2\2UR\3\2\2\2V\13\3\2"+
-		"\2\2WX\7\5\2\2XY\5\f\7\2YZ\b\7\1\2Zf\3\2\2\2[\\\7\t\2\2\\]\5\6\4\2]^\7"+
-		"\n\2\2^_\b\7\1\2_f\3\2\2\2`a\5\16\b\2ab\b\7\1\2bf\3\2\2\2cd\7\17\2\2d"+
-		"f\b\7\1\2eW\3\2\2\2e[\3\2\2\2e`\3\2\2\2ec\3\2\2\2f\r\3\2\2\2gh\7\16\2"+
-		"\2hi\7\r\2\2ij\7\16\2\2jn\b\b\1\2kl\7\16\2\2ln\b\b\1\2mg\3\2\2\2mk\3\2"+
-		"\2\2n\17\3\2\2\2\13\36)\65\67HJUem";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3%\n\3\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\60\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\7\4<\n\4\f\4\16\4?\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\7\5O\n\5\f\5\16\5R\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3"+
+		"\6\3\6\5\6\\\n\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\5\7l\n\7\3\b\3\b\3\b\3\b\3\b\3\b\5\bt\n\b\3\b\2\4\6\b\t\2\4\6\b\n\f"+
+		"\16\2\2{\2\20\3\2\2\2\4$\3\2\2\2\6/\3\2\2\2\b@\3\2\2\2\n[\3\2\2\2\fk\3"+
+		"\2\2\2\16s\3\2\2\2\20\21\5\4\3\2\21\22\b\2\1\2\22\3\3\2\2\2\23\24\7\r"+
+		"\2\2\24\25\7\21\2\2\25\26\7\16\2\2\26\27\5\6\4\2\27\30\b\3\1\2\30%\3\2"+
+		"\2\2\31\32\7\13\2\2\32\33\5\6\4\2\33\34\b\3\1\2\34%\3\2\2\2\35\36\7\f"+
+		"\2\2\36\37\5\6\4\2\37 \b\3\1\2 %\3\2\2\2!\"\5\6\4\2\"#\b\3\1\2#%\3\2\2"+
+		"\2$\23\3\2\2\2$\31\3\2\2\2$\35\3\2\2\2$!\3\2\2\2%\5\3\2\2\2&\'\b\4\1\2"+
+		"\'(\7\21\2\2()\7\3\2\2)*\5\6\4\6*+\b\4\1\2+\60\3\2\2\2,-\5\b\5\2-.\b\4"+
+		"\1\2.\60\3\2\2\2/&\3\2\2\2/,\3\2\2\2\60=\3\2\2\2\61\62\f\5\2\2\62\63\7"+
+		"\4\2\2\63\64\5\b\5\2\64\65\b\4\1\2\65<\3\2\2\2\66\67\f\4\2\2\678\7\5\2"+
+		"\289\5\b\5\29:\b\4\1\2:<\3\2\2\2;\61\3\2\2\2;\66\3\2\2\2<?\3\2\2\2=;\3"+
+		"\2\2\2=>\3\2\2\2>\7\3\2\2\2?=\3\2\2\2@A\b\5\1\2AB\5\n\6\2BC\b\5\1\2CP"+
+		"\3\2\2\2DE\f\5\2\2EF\7\6\2\2FG\5\n\6\2GH\b\5\1\2HO\3\2\2\2IJ\f\4\2\2J"+
+		"K\7\7\2\2KL\5\n\6\2LM\b\5\1\2MO\3\2\2\2ND\3\2\2\2NI\3\2\2\2OR\3\2\2\2"+
+		"PN\3\2\2\2PQ\3\2\2\2Q\t\3\2\2\2RP\3\2\2\2ST\5\f\7\2TU\7\b\2\2UV\5\n\6"+
+		"\2VW\b\6\1\2W\\\3\2\2\2XY\5\f\7\2YZ\b\6\1\2Z\\\3\2\2\2[S\3\2\2\2[X\3\2"+
+		"\2\2\\\13\3\2\2\2]^\7\5\2\2^_\5\f\7\2_`\b\7\1\2`l\3\2\2\2ab\7\t\2\2bc"+
+		"\5\6\4\2cd\7\n\2\2de\b\7\1\2el\3\2\2\2fg\5\16\b\2gh\b\7\1\2hl\3\2\2\2"+
+		"ij\7\21\2\2jl\b\7\1\2k]\3\2\2\2ka\3\2\2\2kf\3\2\2\2ki\3\2\2\2l\r\3\2\2"+
+		"\2mn\7\20\2\2no\7\17\2\2op\7\20\2\2pt\b\b\1\2qr\7\20\2\2rt\b\b\1\2sm\3"+
+		"\2\2\2sq\3\2\2\2t\17\3\2\2\2\13$/;=NP[ks";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

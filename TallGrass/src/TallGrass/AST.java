@@ -187,6 +187,28 @@ public interface AST {
     public <T> T accept(Visitor<T> visitor) { return visitor.visit(this); }
 }
 
+	public static class SpotStmt extends Exp {
+		String _name;
+		Exp _value;
+
+		public SpotStmt(String name, Exp value) {
+			_name = name;
+			_value = value;
+		}
+
+		public String name() {
+			return _name;
+		}
+
+		public Exp value() {
+			return _value;
+		}
+		
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
+
 	public interface Visitor <T> {
 		// This interface should contain a signature for each concrete AST node.
 		public T visit(AST.Program e);
@@ -202,5 +224,6 @@ public interface AST {
 		public T visit(AST.AssignExp e);
 		public T visit(AST.PrintExp e);
 		public T visit(AST.ShoutExp e);
+		public T visit(AST.SpotStmt e);
 	}	
 }
