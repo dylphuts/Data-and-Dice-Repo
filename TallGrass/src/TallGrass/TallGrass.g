@@ -11,30 +11,30 @@ import static TallGrass.AST.*;
 program returns [Program ast] :
     s=stmt { $ast = new Program($s.ast); }
 ;
+
 stmt returns [Exp ast]
     : Spot i=Identifier Level r=exp  { $ast = new SpotStmt($i.text, $r.ast); }
+    | Check '(' c=exp ')' body=stmt Retreat { $ast = new CheckStmt($c.ast, $body.ast); }
     | 'print' e=exp { $ast = new PrintExp($e.ast); }
     | Shout e=exp { $ast = new ShoutExp($e.ast); }
     | e=exp         { $ast = $e.ast; }
 ;
 exp returns [Exp ast]
     : i=Identifier ':=' r=exp  { $ast = new AssignExp($i.text, $r.ast); }
-    | l=exp '+' r2=term        { $ast = new AddExp($l.ast, $r2.ast); }
-    | l=exp '-' r3=term        { $ast = new SubExp($l.ast, $r3.ast); }
-    | t=term                   { $ast = $t.ast; }
+    | l=exp '>' r=exp          { $ast = new GreaterExp($l.ast, $r.ast); }
+    | l=exp '<' r=exp          { $ast = new LessExp($l.ast, $r.ast); }
+    | l=exp '==' r=exp         { $ast = new EqualExp($l.ast, $r.ast); }
+    | l=exp '+' r=exp          { $ast = new AddExp($l.ast, $r.ast); }
+    | l=exp '-' r=exp          { $ast = new SubExp($l.ast, $r.ast); }
+    | l=exp '*' r=exp          { $ast = new MulExp($l.ast, $r.ast); }
+    | l=exp '/' r=exp          { $ast = new DivExp($l.ast, $r.ast); }
+    | l=exp '^' r=exp          { $ast = new PowExp($l.ast, $r.ast); }
+    | '-' e=exp                { $ast = new NegExp($e.ast); }
+    | '(' e=exp ')'            { $ast = $e.ast; }
+    | s=String                 { $ast = new StringExp($s.text.substring(1, $s.text.length()-1)); }
+    | n=number                 { $ast = $n.ast; }
+    | i=Identifier             { $ast = new VarExp($i.text); }
     ;
-term returns [Exp ast]
-    : l=term '*' r=factor { $ast = new MulExp($l.ast, $r.ast); }
-    | l=term '/' r=factor { $ast = new DivExp($l.ast, $r.ast); }
-    | f=factor            { $ast = $f.ast; };
-factor returns [Exp ast]
-    : b=base '^' f=factor { $ast = new PowExp($b.ast, $f.ast); }
-    | b=base              { $ast = $b.ast; };
-base returns [Exp ast]
-    : '-' b=base    { $ast = new NegExp($b.ast); }
-    | '(' e=exp ')' { $ast = $e.ast; }
-    | n=number      { $ast = $n.ast; }
-    | i=Identifier  { $ast = new VarExp($i.text); };
 number returns [Exp ast]
     : n0=Number Dot n1=Number { $ast = new NumExp(Double.parseDouble($n0.text+"."+$n1.text)); }
     | n0=Number               { $ast = new NumExp(Double.parseDouble($n0.text)); };
@@ -46,10 +46,13 @@ number returns [Exp ast]
  Shout : 'shout';
  Spot : 'spot';
  Level : 'level';
+ Check : 'check';
+ Retreat : 'retreat';
  Dot : '.' ;
 
  Number : DIGIT+ ;
 
+ String : '"' (~["])* '"' ;
 
  Identifier :   Letter LetterOrDigit*;
 

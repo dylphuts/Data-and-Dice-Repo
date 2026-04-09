@@ -125,6 +125,33 @@ public interface AST {
 		}
 	}
 
+	public static class GreaterExp extends BinaryExp {
+		public GreaterExp(Exp left, Exp right) {
+			super(left, right);
+		}
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
+
+	public static class LessExp extends BinaryExp {
+		public LessExp(Exp left, Exp right) {
+			super(left, right);
+		}
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
+
+	public static class EqualExp extends BinaryExp {
+		public EqualExp(Exp left, Exp right) {
+			super(left, right);
+		}
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
+
 	public static class NegExp extends UnaryExp {
 		public NegExp(Exp e) {
 			super(e);
@@ -134,6 +161,22 @@ public interface AST {
 		}
 	}
 	// YOUR CODE HERE
+
+	public static class StringExp extends Exp {
+		String _value;
+		
+		public StringExp(String value) {
+			_value = value;
+		}
+		
+		public String value() {
+			return _value;
+		}
+		
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
 
 	public static class VarExp extends Exp {
 		String _name;
@@ -187,6 +230,23 @@ public interface AST {
     public <T> T accept(Visitor<T> visitor) { return visitor.visit(this); }
 }
 
+	public static class CheckStmt extends Exp {
+		Exp _condition;
+		Exp _body;
+		
+		public CheckStmt(Exp condition, Exp body) {
+			_condition = condition;
+			_body = body;
+		}
+		
+		public Exp condition() { return _condition; }
+		public Exp body() { return _body; }
+		
+		public <T> T accept(Visitor<T> visitor) {
+			return visitor.visit(this);
+		}
+	}
+
 	public static class SpotStmt extends Exp {
 		String _name;
 		Exp _value;
@@ -219,11 +279,16 @@ public interface AST {
 		public T visit(AST.MulExp e);
 		public T visit(AST.DivExp e);
 		public T visit(AST.PowExp e);
+		public T visit(AST.GreaterExp e);
+		public T visit(AST.LessExp e);
+		public T visit(AST.EqualExp e);
 		public T visit(AST.NegExp e);
+		public T visit(AST.StringExp e);
 		public T visit(AST.VarExp e);
 		public T visit(AST.AssignExp e);
 		public T visit(AST.PrintExp e);
 		public T visit(AST.ShoutExp e);
 		public T visit(AST.SpotStmt e);
+		public T visit(AST.CheckStmt e);
 	}	
 }

@@ -57,9 +57,25 @@ public class Printer {
 			return result;
 		}
 
+		public String visit(GreaterExp e) {
+			return e.getLeft().accept(this) + " > " + e.getRight().accept(this);
+		}
+
+		public String visit(LessExp e) {
+			return e.getLeft().accept(this) + " < " + e.getRight().accept(this);
+		}
+
+		public String visit(EqualExp e) {
+			return e.getLeft().accept(this) + " == " + e.getRight().accept(this);
+		}
+
 		public String visit(NegExp e) {
 			String inner = e.getExp().accept(this);
 			return "-" + inner;
+		}
+
+		public String visit(StringExp e) {
+			return "\"" + e.value() + "\"";
 		}
 
 		public String visit(VarExp e) {
@@ -80,6 +96,10 @@ public class Printer {
 
 		public String visit(SpotStmt e) {
 			return "spot " + e.name() + " level " + e.value().accept(this);
+		}
+
+		public String visit(CheckStmt e) {
+			return "check (" + e.condition().accept(this) + ") " + e.body().accept(this) + " retreat";
 		}
 	}
 }

@@ -81,6 +81,27 @@ public class Evaluator implements Visitor<Value> {
 	}
 
 	@Override
+	public Value visit(GreaterExp e) {
+		double left = ((NumVal) e.getLeft().accept(this)).v();
+		double right = ((NumVal) e.getRight().accept(this)).v();
+		return new NumVal(left > right ? 1 : 0);
+	}
+
+	@Override
+	public Value visit(LessExp e) {
+		double left = ((NumVal) e.getLeft().accept(this)).v();
+		double right = ((NumVal) e.getRight().accept(this)).v();
+		return new NumVal(left < right ? 1 : 0);
+	}
+
+	@Override
+	public Value visit(EqualExp e) {
+		double left = ((NumVal) e.getLeft().accept(this)).v();
+		double right = ((NumVal) e.getRight().accept(this)).v();
+		return new NumVal(left == right ? 1 : 0);
+	}
+
+	@Override
 	public Value visit(NumExp e) {
 		return new NumVal(e.v());
 	}
@@ -89,6 +110,11 @@ public class Evaluator implements Visitor<Value> {
 	public Value visit(NegExp e) {
 		double val = ((NumVal) e.getExp().accept(this)).v();
 		return new NumVal(-val);
+	}
+
+	@Override
+	public Value visit(StringExp e) {
+		return new StringVal(e.value());
 	}
 
 	@Override
@@ -116,7 +142,7 @@ public class Evaluator implements Visitor<Value> {
 	@Override
 	public Value visit(ShoutExp e) {
 		Value v = e.getExp().accept(this);
-		System.out.println(((NumVal) v).v());
+		System.out.println(v.toString());
 		return new NumVal(0);
 	}
 
@@ -125,5 +151,14 @@ public class Evaluator implements Visitor<Value> {
 		Value v = e.value().accept(this);
 		env.put(e.name(), v);
 		return v;
+	}
+
+	@Override
+	public Value visit(CheckStmt e) {
+		Value condition = e.condition().accept(this);
+		if (((NumVal) condition).v() != 0) {  // Non-zero means true
+			e.body().accept(this);
+		}
+		return new NumVal(0);  // Conditionals don't return values
 	}
 }
