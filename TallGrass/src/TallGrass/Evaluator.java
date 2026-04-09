@@ -112,4 +112,11 @@ public class Evaluator implements Visitor<Value> {
 		System.out.println(((NumVal) v).v());
 		return new NumVal(0);
 	}
+
+	@Override
+	public Value visit(ShoutExp e) {
+		Value v = e.getExp().accept(this);
+		System.out.println(((NumVal) v).v());
+		return new NumVal(0);
+	}
 }

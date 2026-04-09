@@ -180,6 +180,13 @@ public interface AST {
     public <T> T accept(Visitor<T> visitor) { return visitor.visit(this); }
 }
 
+	public static class ShoutExp extends Exp {
+    Exp _e;
+    public ShoutExp(Exp e) { _e = e; }
+    public Exp getExp() { return _e; }
+    public <T> T accept(Visitor<T> visitor) { return visitor.visit(this); }
+}
+
 	public interface Visitor <T> {
 		// This interface should contain a signature for each concrete AST node.
 		public T visit(AST.Program e);
@@ -194,5 +201,6 @@ public interface AST {
 		public T visit(AST.VarExp e);
 		public T visit(AST.AssignExp e);
 		public T visit(AST.PrintExp e);
+		public T visit(AST.ShoutExp e);
 	}	
 }

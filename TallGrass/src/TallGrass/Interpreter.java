@@ -23,7 +23,7 @@ public class Interpreter {
 				p = reader.read();
 				if(p._e == null) continue REPL;
 				Value val = eval.valueOf(p);
-				// printer.print(val);
+				printer.print(val);
 			} catch (IOException e) {
 				System.out.println("Error reading input:" + e.getMessage());
 			} catch (NullPointerException e) {

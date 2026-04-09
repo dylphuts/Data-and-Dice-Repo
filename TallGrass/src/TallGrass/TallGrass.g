@@ -13,6 +13,7 @@ program returns [Program ast] :
 ;
 stmt returns [Exp ast]
     : 'print' e=exp { $ast = new PrintExp($e.ast); }
+    | Shout e=exp { $ast = new ShoutExp($e.ast); }
     | e=exp         { $ast = $e.ast; }
 ;
 exp returns [Exp ast]
@@ -41,6 +42,7 @@ number returns [Exp ast]
  //  - lexical specification rules start with uppercase
  // YOU SHOULD NOT EDIT THESE RULES IN THIS ASSIGNMENT
  Print : 'print';
+ Shout : 'shout';
  Dot : '.' ;
 
  Number : DIGIT+ ;

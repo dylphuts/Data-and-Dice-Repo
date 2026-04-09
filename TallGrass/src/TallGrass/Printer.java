@@ -73,5 +73,9 @@ public class Printer {
 		public String visit(PrintExp e) {
 			return "print " + e.getExp().accept(this);
 		}
+
+		public String visit(ShoutExp e) {
+			return "shout " + e.getExp().accept(this);
+		}
 	}
 }
