@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# run — execute student jar with antlr-4.5-complete.jar on the classpath
+# Usage: ./run [args...]
+set -euo pipefail
+
+# Resolve the directory containing this script, following symlinks
+SCRIPT="$0"
+# If called via relative or absolute path, make it absolute
+# Follow symlinks to the real script location
+while [ -L "$SCRIPT" ]; do
+  DIR="$(cd -P "$(dirname "$SCRIPT")" >/dev/null 2>&1 && pwd)"
+  SCRIPT="$(readlink "$SCRIPT")"
+  # If readlink returned a relative path, make it relative to the symlink's dir
+  case "$SCRIPT" in
+    /*) ;; # absolute
+    *) SCRIPT="$DIR/$SCRIPT" ;;
+  esac
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT")" >/dev/null 2>&1 && pwd)"
+
+JAR_DIR="$SCRIPT_DIR/jar"
+
+if [ ! -d "$JAR_DIR" ]; then
+  echo "Error: jar directory not found: $JAR_DIR" >&2
+  exit 2
+fi
+
+ANTLR_JAR="$JAR_DIR/antlr-4.5-complete.jar"
+if [ ! -f "$ANTLR_JAR" ]; then
+  echo "Error: ANTLR jar not found: $ANTLR_JAR" >&2
+  exit 3
+fi
+
+# Find the student jar: any .jar in jar/ except the ANTLR one.
+# If multiple match, pick the first (deterministic: sorted).
+shopt -s nullglob
+student_candidates=("$JAR_DIR"/*.jar)
+shopt -u nullglob
+
+student_jar=""
+for p in "${student_candidates[@]}"; do
+  [ "$(realpath -- "$p")" = "$(realpath -- "$ANTLR_JAR")" ] && continue
+  student_jar="$p"
+  break
+done
+
+if [ -z "$student_jar" ]; then
+  echo "Error: no student jar found in $JAR_DIR" >&2
+  exit 4
+fi
+
+# Build classpath: student jar and antlr jar
+CLASSPATH="$student_jar:$ANTLR_JAR"
+
+# Exec java, passing all args through
+exec java -cp "$CLASSPATH" lang.Interpreter "$@"
